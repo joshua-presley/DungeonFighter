@@ -12,21 +12,32 @@
 class Character{
 public:
     Character(std::string name, int level): name(name), level(level){}
-    Character(std::string name): name(name), level(0){}
+    Character(std::string name);
     
     std::string getName();
     int getLevel();
+    virtual void attack(Character * characterToAttack);
     
 private:
     std::string name;
     int level;
+    int healthpoints;
+    int armour;
+    //stats
+    int strength;
+    int agility;
+    int constitution;
+    int intelligence;
+    int wisdom;
 };
 class Player: public Character{
-    
+public:
+    Player(std::string name): Character(name){}
 };
 
 class Monster: public Character{
     
 };
+
 
 #endif /* Character_hpp */

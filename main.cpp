@@ -17,7 +17,7 @@ Player * getPlayers(int size){
         std::string name;
         std::cout<<"Enter name of character " << i + 1 << ": ";
         std::cin >> name;
-        Player pl = Player{name};
+        Player pl{name};
         *(players + i) = &pl;
     }
     
@@ -25,17 +25,15 @@ Player * getPlayers(int size){
 }
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
+    
+    //enter players
     int size{};
     std::cout << "Enter party size: ";
     std::cin >> size;
     Player * players;
     players = getPlayers(size);
-    //enter players
-
+    
     //start game
-    
-    
-    std::cout << "Hello, World!\n";
+    players[0].attack(players + 1);
     return 0;
 }
