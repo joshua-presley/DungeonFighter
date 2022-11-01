@@ -16,19 +16,19 @@ public:
     
     std::string getName();
     int getLevel();
-    virtual void attack(Character * characterToAttack);
+    virtual void attack(Character characterToAttack);
     
-private:
+protected:
     std::string name;
-    int level;
-    int healthpoints;
-    int armour;
+    int level{};
+    int healthpoints{};
+    int armour{};
     //stats
-    int strength;
-    int agility;
-    int constitution;
-    int intelligence;
-    int wisdom;
+    int strength{};
+    int agility{};
+    int constitution{};
+    int intelligence{};
+    int wisdom{};
 };
 class Player: public Character{
 public:

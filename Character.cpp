@@ -13,19 +13,19 @@ Character::Character(std::string name){
 }
 
 std::string Character::getName(){
-    return this->name;
+    return name;
 }
 int Character::getLevel(){
     return this->level;
 }
 
-void Character::attack(Character *characterToAttack){
+void Character::attack(Character characterToAttack){
     //check if hit
-    srand(time(NULL));
+    srand((unsigned int)time(NULL));
     int roll = rand() % 20;
-    std::cout << getName() << " is attacking " << characterToAttack->getName() << "\n";
+    std::cout << this->getName() << " is attacking " << characterToAttack.getName() << "\n";
     std::cout << "Attack roll: " << roll << "\n";
-    if(roll > characterToAttack->armour){
+    if(roll > characterToAttack.armour){
         std::cout << "Hit!\n";
     }
     else{
