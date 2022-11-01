@@ -32,7 +32,8 @@ int main(int argc, const char * argv[]) {
     std::cin >> size;
     std::vector<Player> players;
     players = getPlayers(size);
-    players[0].attack(players[1]);
+    //initialize game
+    
     
     return 0;
 }
