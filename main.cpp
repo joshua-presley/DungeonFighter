@@ -6,36 +6,33 @@
 //
 
 #include <iostream>
+#include <vector>
 #include "Character.hpp"
 //get a number of players
-Player * getPlayers(int size){
+std::vector<Player> getPlayers(int size){
     
-    const int partySize{size};
-    Player * players[partySize];
-    
-    for(int i=0;i<partySize;i++){
+    std::vector<Player> ret;
+     
+    for(int i=0;i<size;i++){
         std::string name;
         std::cout<<"Enter name of character " << i + 1 << ": ";
         std::cin >> name;
-        Player pl = Player{name};
-        *(players + i) = &pl;
+        Player pl{name};
+        ret.push_back(pl);
     }
     
-    return *players;
+    return ret;
 }
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
+    
+    //enter players
     int size{};
     std::cout << "Enter party size: ";
     std::cin >> size;
-    Player * players;
+    std::vector<Player> players;
     players = getPlayers(size);
-    //enter players
-
-    //start game
+    players[0].attack(players[1]);
     
-    
-    std::cout << "Hello, World!\n";
     return 0;
 }
