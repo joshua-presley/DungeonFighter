@@ -22,13 +22,18 @@ class Room{
 public:
     Room(int level);
     std::vector<Monster> getEnemies();
-    void createEnemies();
+    void createEnemies(int level);
+    void enterRoom();
+    void doCombat();
+    void endCombat();
+
     //std::vector<loot>
     ~Room();
     
 private:
     std::vector<Monster> enemies;
     bool cleared{false};
+    int level;
 };
 
 
@@ -38,9 +43,6 @@ class Game{
 public:
     Game();
     Room createRoom(); //create a room
-    void enterRoom();
-    void doCombat();
-    void endCombat();
     int getLevel();
     void upLevel();
     void playGame(std::vector<Player> &party);

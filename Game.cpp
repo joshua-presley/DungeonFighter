@@ -15,7 +15,8 @@ void Game::playGame(std::vector<Player> &party){
     for(int i = 0; i<levels;i++){
         //create room
         Room currentRoom{this->getLevel()};
-        
+        currentRoom.createEnemies(this->getLevel());
+        currentRoom.doCombat();
     }
     //
     //
@@ -27,8 +28,14 @@ int Game::getLevel(){
 void Game::upLevel(){
     this->level++;
 }
-//
-Room Game::createRoom(){
-    
+
+void Room::createEnemies(int level){
+    int numberOfMonsters = rand() % level + 1;
+    std::vector<Monster> Monsters;
+    for(int i = 0; i < numberOfMonsters; i++){
+        Monster m{"Orc " + std::to_string(i)};
+        Monsters.push_back(m);
+    }
+    this->
 }
 

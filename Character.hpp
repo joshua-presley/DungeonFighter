@@ -36,7 +36,8 @@ public:
 };
 
 class Monster: public Character{
-    
+public:
+    Monster(std::string type): Character(type){}
 };
 
 
