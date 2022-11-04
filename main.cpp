@@ -8,6 +8,7 @@
 #include <iostream>
 #include <vector>
 #include "Character.hpp"
+#include "Game.hpp"
 //get a number of players
 std::vector<Player> getPlayers(int size){
     
@@ -33,7 +34,8 @@ int main(int argc, const char * argv[]) {
     std::vector<Player> players;
     players = getPlayers(size);
     //initialize game
-    
+    Game game;
+    game.playGame(players);
     
     return 0;
 }
