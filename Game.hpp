@@ -17,16 +17,31 @@ struct Node{
     Node * next;
 };
 
+//room is entered by players and contains enemies and items
+class Room{
+public:
+    Room(int level);
+    std::vector<Monster> getEnemies();
+    void createEnemies();
+    //std::vector<loot>
+    ~Room();
+    
+private:
+    std::vector<Monster> enemies;
+    bool cleared{false};
+};
+
+
 class Game{
     //main game controller class
     
 public:
     Game();
-    void createRoom(); //create a room
+    Room createRoom(); //create a room
     void enterRoom();
     void doCombat();
     void endCombat();
-    void getLevel();
+    int getLevel();
     void upLevel();
     void playGame(std::vector<Player> &party);
     ~Game();
@@ -36,16 +51,6 @@ private:
     
 };
 
-//room is entered by players and contains enemies and items
-class Room{
-public:
-    Room(int level);
-    std::vector<Character> getEnemies();
-    std::vector<Character> createEnemies();
-    //std::vector<loot>
-    ~Room();
-    
-};
 
 #endif /* Game_hpp */
 

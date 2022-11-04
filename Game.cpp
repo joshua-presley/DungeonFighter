@@ -14,10 +14,21 @@ void Game::playGame(std::vector<Player> &party){
     int levels = std::rand() % 15 + 10;
     for(int i = 0; i<levels;i++){
         //create room
+        Room currentRoom{this->getLevel()};
         
     }
     //
     //
 }
 
+int Game::getLevel(){
+    return this->level;
+}
+void Game::upLevel(){
+    this->level++;
+}
+//
+Room Game::createRoom(){
+    
+}
 
