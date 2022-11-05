@@ -18,6 +18,9 @@ std::string Character::getName(){
 int Character::getLevel(){
     return this->level;
 }
+int Character::getInitiative(){
+    return this->initiative;
+}
 
 void Character::attack(Character characterToAttack){
     //check if hit
@@ -31,4 +34,8 @@ void Character::attack(Character characterToAttack){
     else{
         std::cout << "Miss!";
     }
+}
+
+bool operator<(const Character& lhs, const Character& rhs){
+    return lhs.initiative < rhs.initiative;
 }

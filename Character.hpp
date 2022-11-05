@@ -16,13 +16,16 @@ public:
     
     std::string getName();
     int getLevel();
+    int getInitiative();
     virtual void attack(Character characterToAttack);
+    friend bool operator<(const Character& lhs, const Character& rhs);
     
 protected:
     std::string name;
     int level{};
     int healthpoints{};
     int armour{};
+    int initiative{rand() % 19 + 1};
     //stats
     int strength{};
     int agility{};
@@ -36,7 +39,8 @@ public:
 };
 
 class Monster: public Character{
-    
+public:
+    Monster(std::string type): Character(type){}
 };
 
 
