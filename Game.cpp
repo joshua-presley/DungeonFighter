@@ -6,8 +6,10 @@
 //
 #include <vector>
 #include <cstdlib>
+#include <algorithm>
 #include "Game.hpp"
 #include "Character.hpp"
+
 
 Game::Game(){
     
@@ -51,10 +53,20 @@ Room::Room(int level){
 }
 
 void Room::doCombat(std::vector<Player> * party){
-    //get initiative
+    //sort party and enemies by initiative value
+    std::sort(party->begin(), party->end());
+    std::sort(this->getEnemies().begin(), this->getEnemies().end());
+    
+    
     std::vector<Character> turnOrder;
+    turnOrder.reserve(party->size()+this->enemies.size());
+    std::merge(party->begin(), party->end(), this->enemies.begin(), this->enemies.end(), std::back_inserter(turnOrder));
     
     //combat loop
+}
+
+std::vector<Monster> Room::getEnemies(){
+    return this->enemies;
 }
 
 Room::~Room(){

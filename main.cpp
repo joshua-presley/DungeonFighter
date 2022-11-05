@@ -35,9 +35,6 @@ int main(int argc, const char * argv[]) {
     std::cin >> size;
     std::vector<Player> players;
     players = getPlayers(size);
-    std::cout << players[0].getName() << " initiative: " << players[0].getInitiative() <<"\n";
-    std::cout << players[1].getName() << " initiative: " << players[1].getInitiative() <<"\n";
-    std::cout << (players[0] < players[1]);
     //initialize game
     Game game;
     game.playGame(&players);

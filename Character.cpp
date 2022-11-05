@@ -37,5 +37,5 @@ void Character::attack(Character characterToAttack){
 }
 
 bool operator<(const Character& lhs, const Character& rhs){
-    return std::tie(lhs.initiative) < std::tie(rhs.initiative);
+    return lhs.initiative < rhs.initiative;
 }
