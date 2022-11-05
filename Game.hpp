@@ -24,7 +24,7 @@ public:
     std::vector<Monster> getEnemies();
     void createEnemies(int level);
     void enterRoom();
-    void doCombat();
+    void doCombat(std::vector<Player> * party);
     void endCombat();
 
     //std::vector<loot>
@@ -45,7 +45,7 @@ public:
     Room createRoom(); //create a room
     int getLevel();
     void upLevel();
-    void playGame(std::vector<Player> &party);
+    void playGame(std::vector<Player> * party);
     ~Game();
     
 private:

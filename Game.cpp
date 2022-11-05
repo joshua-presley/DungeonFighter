@@ -9,14 +9,21 @@
 #include "Game.hpp"
 #include "Character.hpp"
 
-void Game::playGame(std::vector<Player> &party){
+Game::Game(){
+    
+}
+Game::~Game(){
+    
+}
+
+void Game::playGame(std::vector<Player> * party){
     //get number of levels
-    int levels = std::rand() % 15 + 10;
+    int levels = std::rand() % 5 + 10;
     for(int i = 0; i<levels;i++){
         //create room
         Room currentRoom{this->getLevel()};
         currentRoom.createEnemies(this->getLevel());
-        currentRoom.doCombat();
+        currentRoom.doCombat(party);
     }
     //
     //
@@ -30,12 +37,26 @@ void Game::upLevel(){
 }
 
 void Room::createEnemies(int level){
-    int numberOfMonsters = rand() % level + 1;
+    int numberOfMonsters = rand() % (level + 1) + 1;
     std::vector<Monster> Monsters;
-    for(int i = 0; i < numberOfMonsters; i++){
+    for(int i = 0; i <= numberOfMonsters; i++){
         Monster m{"Orc " + std::to_string(i)};
         Monsters.push_back(m);
     }
-    this->
+    this->enemies = Monsters;
 }
 
+Room::Room(int level){
+    this->level = level;
+}
+
+void Room::doCombat(std::vector<Player> * party){
+    //get initiative
+    std::vector<Character> turnOrder;
+    
+    //combat loop
+}
+
+Room::~Room(){
+    
+}
