@@ -18,7 +18,7 @@ Game::~Game(){
     
 }
 
-void Game::playGame(std::vector<Player> * party){
+void Game::playGame(std::vector<Player> &party){
     //get number of levels
     int levels = std::rand() % 5 + 10;
     for(int i = 0; i<levels;i++){
@@ -52,17 +52,30 @@ Room::Room(int level){
     this->level = level;
 }
 
-void Room::doCombat(std::vector<Player> * party){
+void Room::doCombat(std::vector<Player> &party){
     //sort party and enemies by initiative value
-    std::sort(party->begin(), party->end());
+    std::sort(party.begin(), party.end());
     std::sort(this->getEnemies().begin(), this->getEnemies().end());
     
     
-    std::vector<Character> turnOrder;
-    turnOrder.reserve(party->size()+this->enemies.size());
-    std::merge(party->begin(), party->end(), this->enemies.begin(), this->enemies.end(), std::back_inserter(turnOrder));
+    std::vector<Character*> turnOrder;
+    turnOrder.reserve(party.size()+this->enemies.size());
+    std::merge(party.begin(), party.end(), this->enemies.begin(), this->enemies.end(), std::back_inserter(turnOrder));
     
     //combat loop
+    for(Character * currentCharacter : turnOrder){
+        //is character player? else monster
+        if(dynamic_cast<Player*>(currentCharacter) != nullptr){
+            Player * current = dynamic_cast<Player *>(currentCharacter);
+            current->attack(this->enemies);
+        }
+        else{
+            Monster * current = dynamic_cast<Monster *>(currentCharacter);
+            current->attack(party);
+        }
+        
+        
+    }
 }
 
 std::vector<Monster> Room::getEnemies(){

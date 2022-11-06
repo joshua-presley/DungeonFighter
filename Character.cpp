@@ -6,6 +6,7 @@
 //
 #include <iostream>
 #include "Character.hpp"
+
 Character::Character(std::string name){
     this->name = name;
     armour = 10;
@@ -22,17 +23,41 @@ int Character::getInitiative(){
     return this->initiative;
 }
 
-void Character::attack(Character characterToAttack){
+void Player::attack(std::vector<Monster> &vectorOfTargets){
     //check if hit
+    std::cout << "Choose a target:\n";
     srand((unsigned int)time(NULL));
-    int roll = rand() % 20;
-    std::cout << this->getName() << " is attacking " << characterToAttack.getName() << "\n";
-    std::cout << "Attack roll: " << roll << "\n";
-    if(roll > characterToAttack.armour){
-        std::cout << "Hit!\n";
+    int i=0;
+    int characterChoice{};
+    //int roll = rand() % 20;
+    for(Monster mon: vectorOfTargets){
+        std::cout<< i++ << ": " << mon.getName() << "\n";
+    }
+    std::cin >> characterChoice;
+    int roll = rand() % 19 + 1;
+    
+    if(roll > vectorOfTargets[characterChoice].getArmour()){
+        std::cout << this->name << " hit " <<vectorOfTargets[characterChoice].getName() << "\n";
     }
     else{
-        std::cout << "Miss!";
+        std::cout << this->name << " miss " <<vectorOfTargets[characterChoice].getName() << "\n";
+    }
+    
+}
+
+void Monster::attack(std::vector<Player> &vectorOfTargets){
+    //choose player to attack
+    int size = (int)vectorOfTargets.size();
+    srand((unsigned int)time(NULL));
+    int characterChoice = rand() % size;
+    
+    //attack roll
+    int roll = rand() % 19 + 1;
+    if(roll > vectorOfTargets[characterChoice].getArmour()){
+        std::cout << this->name << " hit " <<vectorOfTargets[characterChoice].getName() << "\n";
+    }
+    else{
+        std::cout << this->name << " miss " <<vectorOfTargets[characterChoice].getName() << "\n";
     }
 }
 
