@@ -22,9 +22,14 @@ int Character::getLevel(){
 int Character::getInitiative(){
     return this->initiative;
 }
+int Character::getArmour(){
+    return this->armour;
+}
 
-void Player::attack(std::vector<Monster> &vectorOfTargets){
+void Player::attack(){
     //check if hit
+    std::cout << "player attack\n";
+    /*
     std::cout << "Choose a target:\n";
     srand((unsigned int)time(NULL));
     int i=0;
@@ -42,11 +47,14 @@ void Player::attack(std::vector<Monster> &vectorOfTargets){
     else{
         std::cout << this->name << " miss " <<vectorOfTargets[characterChoice].getName() << "\n";
     }
+     */
     
 }
 
-void Monster::attack(std::vector<Player> &vectorOfTargets){
+void Monster::attack(){
     //choose player to attack
+    std::cout << "monster attack\n";
+    /*
     int size = (int)vectorOfTargets.size();
     srand((unsigned int)time(NULL));
     int characterChoice = rand() % size;
@@ -58,9 +66,14 @@ void Monster::attack(std::vector<Player> &vectorOfTargets){
     }
     else{
         std::cout << this->name << " miss " <<vectorOfTargets[characterChoice].getName() << "\n";
-    }
+    }*/
 }
 
+//this function returns the oposite of what's expected so we can sort backwards without effort
 bool operator<(const Character& lhs, const Character& rhs){
-    return lhs.initiative < rhs.initiative;
+    return lhs.initiative > rhs.initiative;
+}
+
+void Character::attack(){
+    std::cout << "base class attack\n";
 }

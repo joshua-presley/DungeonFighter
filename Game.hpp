@@ -21,11 +21,12 @@ struct Node{
 class Room{
 public:
     Room(int level);
-    std::vector<Monster> getEnemies();
+    std::vector<Monster> * getEnemies();
     void createEnemies(int level);
     void enterRoom();
     void doCombat(std::vector<Player> &party);
     void endCombat();
+    auto getNext(std::vector<Player> * party, std::vector<Monster>, int lastInitiative);
 
     //std::vector<loot>
     ~Room();

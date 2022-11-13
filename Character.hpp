@@ -23,7 +23,7 @@ public:
     int getLevel();
     int getInitiative();
     int getArmour();
-    virtual void attack(std::vector<Monster> &vectorOfTargets);
+    virtual void attack();
     friend bool operator<(const Character& lhs, const Character& rhs);
     
 protected:
@@ -42,13 +42,13 @@ protected:
 class Player: public Character{
 public:
     Player(std::string name): Character(name){}
-    void attack(std::vector<Monster> &vectorOfTargets);
+    void attack();
 };
 
 class Monster: public Character{
 public:
     Monster(std::string type): Character(type){}
-    void attack(std::vector<Player> &vectorOfTargets);
+    void attack();
 };
 
 

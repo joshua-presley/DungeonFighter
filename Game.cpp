@@ -20,7 +20,7 @@ Game::~Game(){
 
 void Game::playGame(std::vector<Player> &party){
     //get number of levels
-    int levels = std::rand() % 5 + 10;
+    int levels = rand() % 5 + 10; //todo change this back to rand from 10 to 15
     for(int i = 0; i<levels;i++){
         //create room
         Room currentRoom{this->getLevel()};
@@ -52,34 +52,66 @@ Room::Room(int level){
     this->level = level;
 }
 
+auto Room::getNext(std::vector<Player> *party, std::vector<Monster>, int lastInitiative){
+    return party[0];
+}
+
 void Room::doCombat(std::vector<Player> &party){
+    std::cout << "new combat\n";
     //sort party and enemies by initiative value
+    std::vector<Monster> * enemies = this->getEnemies();
+    //sort both lists for turn order
     std::sort(party.begin(), party.end());
-    std::sort(this->getEnemies().begin(), this->getEnemies().end());
+    std::sort(enemies->begin(), enemies->end());
     
+    int nextPlayerIndex{0};
+    int nextMonsterIndex{0};
+    //temporary
+    int rounds = (int)(party.size() + enemies->size());
     
-    std::vector<Character*> turnOrder;
-    turnOrder.reserve(party.size()+this->enemies.size());
-    std::merge(party.begin(), party.end(), this->enemies.begin(), this->enemies.end(), std::back_inserter(turnOrder));
+    //start last initiative at 21 so getNext will choose highestInit character
+    //int lastInitiative{21};
     
-    //combat loop
-    for(Character * currentCharacter : turnOrder){
-        //is character player? else monster
-        if(dynamic_cast<Player*>(currentCharacter) != nullptr){
-            Player * current = dynamic_cast<Player *>(currentCharacter);
-            current->attack(this->enemies);
+    for(int i = 0; i<rounds; i++){
+        //grab next characters from both lists
+        Player * nextPlayer;
+        Monster * nextMonster;
+        
+        //select next player/monster
+        //todo: figure out if char has acted this round
+        try{
+            nextPlayer = &(party.at(nextPlayerIndex));
+        }
+        catch(std::out_of_range e){
+            nextPlayerIndex = 0; //have reached the end of player list
+            nextPlayer = &(party.at(nextPlayerIndex));
+        }
+        try{
+            nextMonster = &(enemies->at(nextMonsterIndex));
+        }
+        catch(std::out_of_range e){
+            nextMonsterIndex = 0;
+            nextMonster = &(enemies->at(nextMonsterIndex));
+        }
+        
+        
+        
+        //this if statement seems backwards. operator is reversed
+        if(*nextPlayer < *nextMonster){
+            nextPlayer->attack();
+            nextPlayerIndex++;
         }
         else{
-            Monster * current = dynamic_cast<Monster *>(currentCharacter);
-            current->attack(party);
+            nextMonster->attack();
+            nextMonsterIndex++;
         }
-        
-        
     }
 }
 
-std::vector<Monster> Room::getEnemies(){
-    return this->enemies;
+
+
+std::vector<Monster> * Room::getEnemies(){
+    return &(this->enemies);
 }
 
 Room::~Room(){
