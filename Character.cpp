@@ -5,6 +5,7 @@
 //  Created by Joshua Presley on 2022-10-30.
 //
 #include <iostream>
+#include <time.h>
 #include "Character.hpp"
 
 Character::Character(std::string name){
@@ -26,47 +27,50 @@ int Character::getArmour(){
     return this->armour;
 }
 
-void Player::attack(){
+void Player::attack(std::vector<Monster> * vectorOfTargets){
     //check if hit
-    std::cout << "player attack\n";
-    /*
+    
     std::cout << "Choose a target:\n";
     srand((unsigned int)time(NULL));
     int i=0;
     int characterChoice{};
     //int roll = rand() % 20;
-    for(Monster mon: vectorOfTargets){
+    for(Monster mon: *vectorOfTargets){
         std::cout<< i++ << ": " << mon.getName() << "\n";
     }
     std::cin >> characterChoice;
     int roll = rand() % 19 + 1;
     
-    if(roll > vectorOfTargets[characterChoice].getArmour()){
-        std::cout << this->name << " hit " <<vectorOfTargets[characterChoice].getName() << "\n";
+    Monster * targetMonster = &(vectorOfTargets->at(characterChoice));
+    
+    if(roll > targetMonster->getArmour()){
+        std::cout << this->name << " attack roll: " << roll << " hit " << targetMonster->getName() << "\n";
+        targetMonster->takeDamage(1); //todo: set this later
     }
     else{
-        std::cout << this->name << " miss " <<vectorOfTargets[characterChoice].getName() << "\n";
+        std::cout << this->name << " attack roll: " << roll << " miss " << targetMonster->getName() << "\n";
     }
-     */
+     
     
 }
 
-void Monster::attack(){
-    //choose player to attack
-    std::cout << "monster attack\n";
-    /*
-    int size = (int)vectorOfTargets.size();
-    srand((unsigned int)time(NULL));
+void Monster::attack(std::vector<Player> * vectorOfTargets){
+    //randomely choose a player to attack
+    int size = (int)vectorOfTargets->size();
     int characterChoice = rand() % size;
     
+    //get reference to player
+    Player * playerAttack = &(vectorOfTargets->at(characterChoice));
     //attack roll
     int roll = rand() % 19 + 1;
-    if(roll > vectorOfTargets[characterChoice].getArmour()){
-        std::cout << this->name << " hit " <<vectorOfTargets[characterChoice].getName() << "\n";
+    if(roll > playerAttack->getArmour()){
+        std::cout << this->name << " attack roll: " << roll << " hit " << playerAttack->getName() << " Armour: " << playerAttack->getArmour() << "\n";
+        playerAttack->takeDamage(1);
     }
     else{
-        std::cout << this->name << " miss " <<vectorOfTargets[characterChoice].getName() << "\n";
-    }*/
+        std::cout << this->name << " attack roll: " << roll << " miss " << playerAttack->getName() << " Armour: " << playerAttack->getArmour() << "\n";
+    }
+    
 }
 
 //this function returns the oposite of what's expected so we can sort backwards without effort
@@ -76,4 +80,19 @@ bool operator<(const Character& lhs, const Character& rhs){
 
 void Character::attack(){
     std::cout << "base class attack\n";
+}
+
+void Character::takeDamage(int damage){
+    this->healthpoints -= damage;
+    if(this->healthpoints <= 0){
+        this->die();
+    }
+}
+
+void Character::die(){
+    std::cout << this->name << " has died\n";
+}
+
+int Character::getHealth(){
+    return this->healthpoints;
 }

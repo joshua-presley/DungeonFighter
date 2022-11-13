@@ -25,6 +25,7 @@ void Game::playGame(std::vector<Player> &party){
         //create room
         Room currentRoom{this->getLevel()};
         currentRoom.createEnemies(this->getLevel());
+        currentRoom.printRoom(&party, currentRoom.getEnemies(), i);
         currentRoom.doCombat(party);
     }
     //
@@ -57,7 +58,6 @@ auto Room::getNext(std::vector<Player> *party, std::vector<Monster>, int lastIni
 }
 
 void Room::doCombat(std::vector<Player> &party){
-    std::cout << "new combat\n";
     //sort party and enemies by initiative value
     std::vector<Monster> * enemies = this->getEnemies();
     //sort both lists for turn order
@@ -98,17 +98,43 @@ void Room::doCombat(std::vector<Player> &party){
         
         //this if statement seems backwards. operator is reversed
         if(*nextPlayer < *nextMonster){
-            nextPlayer->attack();
+            nextPlayer->attack(enemies);
             nextPlayerIndex++;
         }
         else{
-            nextMonster->attack();
+            nextMonster->attack(&party);
             nextMonsterIndex++;
         }
     }
 }
 
-
+void Room::printRoom(std::vector<Player> * players, std::vector<Monster> * monsters, int level){
+    std::vector<Player>::iterator itPlayer;
+    std::vector<Monster>::iterator itMonster;
+    std::cout << "**************** Level " << level << " ****************\n";
+    
+    for(itMonster = monsters->begin(); itMonster < monsters->end(); itMonster++){
+        std::cout << itMonster->getName() << "    ";
+    }
+    std::cout << "\n";
+    for(itMonster = monsters->begin(); itMonster < monsters->end(); itMonster++){
+        std::cout << itMonster->getHealth() << "         ";
+    }
+    
+    
+    std::cout << "\n\n";
+    for(itPlayer = players->begin(); itPlayer < players->end(); itPlayer++){
+        std::cout << itPlayer->getName() << "    ";
+    }
+    std::cout << "\n";
+    for(itPlayer = players->begin(); itPlayer < players->end(); itPlayer++){
+        std::cout << itMonster->getHealth() << "    ";
+    }
+    std::cout << "\n******************************************\n";
+    
+    
+    
+}
 
 std::vector<Monster> * Room::getEnemies(){
     return &(this->enemies);

@@ -23,13 +23,16 @@ public:
     int getLevel();
     int getInitiative();
     int getArmour();
+    int getHealth();
+    void takeDamage(int damage);
+    void die();
     virtual void attack();
     friend bool operator<(const Character& lhs, const Character& rhs);
     
 protected:
     std::string name;
-    int level{};
-    int healthpoints{};
+    int level{1};
+    int healthpoints{5*level};
     int armour{};
     int initiative{rand() % 19 + 1};
     //stats
@@ -42,13 +45,13 @@ protected:
 class Player: public Character{
 public:
     Player(std::string name): Character(name){}
-    void attack();
+    void attack(std::vector<Monster> * vectorOfTargets);
 };
 
 class Monster: public Character{
 public:
     Monster(std::string type): Character(type){}
-    void attack();
+    void attack(std::vector<Player> * vectorOfTargets);
 };
 
 

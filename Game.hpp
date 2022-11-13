@@ -26,6 +26,7 @@ public:
     void enterRoom();
     void doCombat(std::vector<Player> &party);
     void endCombat();
+    void printRoom(std::vector<Player> * players, std::vector<Monster> * monsters, int level);
     auto getNext(std::vector<Player> * party, std::vector<Monster>, int lastInitiative);
 
     //std::vector<loot>
