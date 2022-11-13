@@ -9,6 +9,11 @@
 #define Character_hpp
 
 #include <iostream>
+#include <vector>
+
+class Monster;
+
+
 class Character{
 public:
     Character(std::string name, int level): name(name), level(level){}
@@ -17,7 +22,8 @@ public:
     std::string getName();
     int getLevel();
     int getInitiative();
-    virtual void attack(Character characterToAttack);
+    int getArmour();
+    virtual void attack();
     friend bool operator<(const Character& lhs, const Character& rhs);
     
 protected:
@@ -36,11 +42,13 @@ protected:
 class Player: public Character{
 public:
     Player(std::string name): Character(name){}
+    void attack();
 };
 
 class Monster: public Character{
 public:
     Monster(std::string type): Character(type){}
+    void attack();
 };
 
 

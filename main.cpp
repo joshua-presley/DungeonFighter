@@ -37,7 +37,7 @@ int main(int argc, const char * argv[]) {
     players = getPlayers(size);
     //initialize game
     Game game;
-    game.playGame(&players);
+    game.playGame(players);
     
     return 0;
 }
