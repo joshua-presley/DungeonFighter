@@ -20,12 +20,11 @@ Game::~Game(){
 
 void Game::playGame(std::vector<Player> &party){
     //get number of levels
-    int levels = rand() % 5 + 10; //todo change this back to rand from 10 to 15
+    int levels = 2; //rand() % 5 + 10; //todo change this back to rand from 10 to 15
     for(int i = 0; i<levels;i++){
         //create room
         Room currentRoom{this->getLevel()};
         currentRoom.createEnemies(this->getLevel());
-        currentRoom.printRoom(&party, currentRoom.getEnemies(), i);
         currentRoom.doCombat(party);
     }
     //
@@ -53,10 +52,6 @@ Room::Room(int level){
     this->level = level;
 }
 
-auto Room::getNext(std::vector<Player> *party, std::vector<Monster>, int lastInitiative){
-    return party[0];
-}
-
 void Room::doCombat(std::vector<Player> &party){
     //sort party and enemies by initiative value
     std::vector<Monster> * enemies = this->getEnemies();
@@ -69,16 +64,15 @@ void Room::doCombat(std::vector<Player> &party){
     //temporary
     int rounds = (int)(party.size() + enemies->size());
     
-    //start last initiative at 21 so getNext will choose highestInit character
-    //int lastInitiative{21};
     
     for(int i = 0; i<rounds; i++){
+        
+        printRoom(&party, enemies, i+1);
         //grab next characters from both lists
         Player * nextPlayer;
         Monster * nextMonster;
         
         //select next player/monster
-        //todo: figure out if char has acted this round
         try{
             nextPlayer = &(party.at(nextPlayerIndex));
         }
@@ -96,8 +90,8 @@ void Room::doCombat(std::vector<Player> &party){
         
         
         
-        //this if statement seems backwards. operator is reversed
-        if(*nextPlayer < *nextMonster){
+        //this if statement seems backwards. operator is reversed to sort turn order properly
+        if(*nextPlayer < *nextMonster && nextPlayer->getTurnsTaken() <= nextMonster->getTurnsTaken()){
             nextPlayer->attack(enemies);
             nextPlayerIndex++;
         }

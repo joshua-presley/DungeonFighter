@@ -50,7 +50,8 @@ void Player::attack(std::vector<Monster> * vectorOfTargets){
     else{
         std::cout << this->name << " attack roll: " << roll << " miss " << targetMonster->getName() << "\n";
     }
-     
+    //increment in order to stop initiative problems in the turn order
+    this->turnsTaken++;
     
 }
 
@@ -70,12 +71,13 @@ void Monster::attack(std::vector<Player> * vectorOfTargets){
     else{
         std::cout << this->name << " attack roll: " << roll << " miss " << playerAttack->getName() << " Armour: " << playerAttack->getArmour() << "\n";
     }
-    
+    //increment this to stop problems with the turn order.
+    this->turnsTaken++;
 }
 
-//this function returns the oposite of what's expected so we can sort backwards without effort
+
 bool operator<(const Character& lhs, const Character& rhs){
-    return lhs.initiative > rhs.initiative;
+        return lhs.initiative > rhs.initiative;
 }
 
 void Character::attack(){
@@ -95,4 +97,8 @@ void Character::die(){
 
 int Character::getHealth(){
     return this->healthpoints;
+}
+
+int Character::getTurnsTaken(){
+    return this->turnsTaken;
 }

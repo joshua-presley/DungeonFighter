@@ -24,9 +24,12 @@ public:
     int getInitiative();
     int getArmour();
     int getHealth();
+    int getTurnsTaken();
+    
     void takeDamage(int damage);
     void die();
     virtual void attack();
+    
     friend bool operator<(const Character& lhs, const Character& rhs);
     
 protected:
@@ -41,6 +44,7 @@ protected:
     int constitution{};
     int intelligence{};
     int wisdom{};
+    int turnsTaken{}; //used to stop problems with only initiative in turn order.
 };
 class Player: public Character{
 public:
