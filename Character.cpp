@@ -30,7 +30,7 @@ int Character::getArmour(){
 void Player::attack(std::vector<Monster> * vectorOfTargets){
     //check if hit
     
-    std::cout << "Choose a target:\n";
+    std::cout << this->name << ": Choose a target:\n";
     srand((unsigned int)time(NULL));
     int i=0;
     int characterChoice{};
@@ -41,14 +41,17 @@ void Player::attack(std::vector<Monster> * vectorOfTargets){
     std::cin >> characterChoice;
     int roll = rand() % 19 + 1;
     
-    Monster * targetMonster = &(vectorOfTargets->at(characterChoice));
+    std::vector<Monster>::iterator targetMonster = vectorOfTargets->begin() + characterChoice;
     
     if(roll > targetMonster->getArmour()){
-        std::cout << this->name << " attack roll: " << roll << " hit " << targetMonster->getName() << "\n";
+        std::cout << this->name << " attack roll: " << roll << " hit " << targetMonster->getName() << "\n\n\n";
         targetMonster->takeDamage(1); //todo: set this later
+        if(targetMonster->isDead()){
+            vectorOfTargets->erase(targetMonster);
+        }
     }
     else{
-        std::cout << this->name << " attack roll: " << roll << " miss " << targetMonster->getName() << "\n";
+        std::cout << this->name << " attack roll: " << roll << " miss " << targetMonster->getName() << "\n\n\n";
     }
     //increment in order to stop initiative problems in the turn order
     this->turnsTaken++;
@@ -61,15 +64,18 @@ void Monster::attack(std::vector<Player> * vectorOfTargets){
     int characterChoice = rand() % size;
     
     //get reference to player
-    Player * playerAttack = &(vectorOfTargets->at(characterChoice));
+    std::vector<Player>::iterator playerAttack = vectorOfTargets->begin() + characterChoice;
     //attack roll
     int roll = rand() % 19 + 1;
     if(roll > playerAttack->getArmour()){
-        std::cout << this->name << " attack roll: " << roll << " hit " << playerAttack->getName() << " Armour: " << playerAttack->getArmour() << "\n";
+        std::cout << this->name << " attack roll: " << roll << " hit " << playerAttack->getName() << " Armour: " << playerAttack->getArmour() << "\n\n\n";
         playerAttack->takeDamage(1);
+        if(playerAttack->isDead()){
+            vectorOfTargets->erase(playerAttack);
+        }
     }
     else{
-        std::cout << this->name << " attack roll: " << roll << " miss " << playerAttack->getName() << " Armour: " << playerAttack->getArmour() << "\n";
+        std::cout << this->name << " attack roll: " << roll << " miss " << playerAttack->getName() << " Armour: " << playerAttack->getArmour() << "\n\n\n";
     }
     //increment this to stop problems with the turn order.
     this->turnsTaken++;
@@ -86,13 +92,10 @@ void Character::attack(){
 
 void Character::takeDamage(int damage){
     this->healthpoints -= damage;
-    if(this->healthpoints <= 0){
-        this->die();
-    }
 }
 
-void Character::die(){
-    std::cout << this->name << " has died\n";
+bool Character::isDead(){
+    return this->healthpoints <= 0;
 }
 
 int Character::getHealth(){

@@ -27,7 +27,7 @@ public:
     int getTurnsTaken();
     
     void takeDamage(int damage);
-    void die();
+    bool isDead();
     virtual void attack();
     
     friend bool operator<(const Character& lhs, const Character& rhs);
@@ -45,6 +45,7 @@ protected:
     int intelligence{};
     int wisdom{};
     int turnsTaken{}; //used to stop problems with only initiative in turn order.
+    
 };
 class Player: public Character{
 public:
