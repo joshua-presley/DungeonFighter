@@ -73,7 +73,7 @@ void Room::doCombat(std::vector<Player> &party){
         
         //this if statement seems backwards. operator is reversed to sort turn order properly
         if(*nextPlayer < *nextMonster && nextPlayer->getTurnsTaken() <= nextMonster->getTurnsTaken()){
-            nextPlayer->attack(enemies);
+            nextPlayer->attack(*enemies);
             if(std::next(nextPlayer) == party.end()){
                 nextPlayer = party.begin();
             }
@@ -82,7 +82,7 @@ void Room::doCombat(std::vector<Player> &party){
             }
         }
         else{
-            nextMonster->attack(&party);
+            nextMonster->attack(party);
             if(std::next(nextMonster) == enemies->end()){
                 nextMonster = enemies->begin();
             }

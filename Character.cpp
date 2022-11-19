@@ -27,7 +27,7 @@ int Character::getArmour(){
     return this->armour;
 }
 
-void Player::attack(std::vector<Monster> * vectorOfTargets){
+void Player::attack(std::vector<Monster> & vectorOfTargets){
     //check if hit
     
     std::cout << this->name << ": Choose a target:\n";
@@ -35,19 +35,19 @@ void Player::attack(std::vector<Monster> * vectorOfTargets){
     int i=0;
     int characterChoice{};
     //int roll = rand() % 20;
-    for(Monster mon: *vectorOfTargets){
+    for(Monster mon: vectorOfTargets){
         std::cout<< i++ << ": " << mon.getName() << "\n";
     }
     std::cin >> characterChoice;
     int roll = rand() % 19 + 1;
     
-    std::vector<Monster>::iterator targetMonster = vectorOfTargets->begin() + characterChoice;
+    std::vector<Monster>::iterator targetMonster = vectorOfTargets.begin() + characterChoice;
     
     if(roll > targetMonster->getArmour()){
         std::cout << this->name << " attack roll: " << roll << " hit " << targetMonster->getName() << "\n\n\n";
         targetMonster->takeDamage(1); //todo: set this later
         if(targetMonster->isDead()){
-            vectorOfTargets->erase(targetMonster);
+            vectorOfTargets.erase(targetMonster);
         }
     }
     else{
@@ -58,20 +58,20 @@ void Player::attack(std::vector<Monster> * vectorOfTargets){
     
 }
 
-void Monster::attack(std::vector<Player> * vectorOfTargets){
+void Monster::attack(std::vector<Player> & vectorOfTargets){
     //randomely choose a player to attack
-    int size = (int)vectorOfTargets->size();
+    int size = (int)vectorOfTargets.size();
     int characterChoice = rand() % size;
     
     //get reference to player
-    std::vector<Player>::iterator playerAttack = vectorOfTargets->begin() + characterChoice;
+    std::vector<Player>::iterator playerAttack = vectorOfTargets.begin() + characterChoice;
     //attack roll
     int roll = rand() % 19 + 1;
     if(roll > playerAttack->getArmour()){
         std::cout << this->name << " attack roll: " << roll << " hit " << playerAttack->getName() << " Armour: " << playerAttack->getArmour() << "\n\n\n";
         playerAttack->takeDamage(1);
         if(playerAttack->isDead()){
-            vectorOfTargets->erase(playerAttack);
+            vectorOfTargets.erase(playerAttack);
         }
     }
     else{
