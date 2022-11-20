@@ -27,7 +27,7 @@ public:
     int getTurnsTaken();
     
     void takeDamage(int damage);
-    void die();
+    bool isDead();
     virtual void attack();
     
     friend bool operator<(const Character& lhs, const Character& rhs);
@@ -35,7 +35,7 @@ public:
 protected:
     std::string name;
     int level{1};
-    int healthpoints{5*level};
+    int healthpoints{2*level};
     int armour{};
     int initiative{rand() % 19 + 1};
     //stats
@@ -45,17 +45,18 @@ protected:
     int intelligence{};
     int wisdom{};
     int turnsTaken{}; //used to stop problems with only initiative in turn order.
+    
 };
 class Player: public Character{
 public:
     Player(std::string name): Character(name){}
-    void attack(std::vector<Monster> * vectorOfTargets);
+    void attack(std::vector<Monster> & vectorOfTargets);
 };
 
 class Monster: public Character{
 public:
     Monster(std::string type): Character(type){}
-    void attack(std::vector<Player> * vectorOfTargets);
+    void attack(std::vector<Player> & vectorOfTargets);
 };
 
 

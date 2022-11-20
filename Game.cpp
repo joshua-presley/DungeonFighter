@@ -59,53 +59,67 @@ void Room::doCombat(std::vector<Player> &party){
     std::sort(party.begin(), party.end());
     std::sort(enemies->begin(), enemies->end());
     
-    int nextPlayerIndex{0};
-    int nextMonsterIndex{0};
-    //temporary
-    int rounds = (int)(party.size() + enemies->size());
     
+    //int nextPlayerIndex{0};
+    //int nextMonsterIndex{0};
     
-    for(int i = 0; i<rounds; i++){
+    //bool havePlayer{false};
+    //bool haveMonster{false};
+    int i = 1;
+    std::vector<Player>::iterator nextPlayer = party.begin();// = nullptr;
+    std::vector<Monster>::iterator nextMonster = enemies->begin();// = nullptr;
+    while(party.size() > 0 && enemies->size() > 0){
         
-        printRoom(&party, enemies, i+1);
-        //grab next characters from both lists
-        Player * nextPlayer;
-        Monster * nextMonster;
+        printRoom(&party, enemies, i++);
         
-        //select next player/monster
-        try{
-            nextPlayer = &(party.at(nextPlayerIndex));
+        //this if statement seems backwards. operator< is reversed to sort turn order properly
+        if(nextPlayer->getTurnsTaken() == nextMonster->getTurnsTaken()){
+            if(*nextPlayer < *nextMonster){
+                nextPlayer->attack(*enemies);
+                if(std::next(nextPlayer) == party.end()){
+                    nextPlayer = party.begin();
+                }
+                else{
+                    nextPlayer++;
+                }
+            }
+            else{
+                nextMonster->attack(party);
+                if(std::next(nextMonster) == enemies->end()){
+                    nextMonster = enemies->begin();
+                }
+                else{
+                    nextMonster++;
+                }
+                
+            }
         }
-        catch(std::out_of_range e){
-            nextPlayerIndex = 0; //have reached the end of player list
-            nextPlayer = &(party.at(nextPlayerIndex));
-        }
-        try{
-            nextMonster = &(enemies->at(nextMonsterIndex));
-        }
-        catch(std::out_of_range e){
-            nextMonsterIndex = 0;
-            nextMonster = &(enemies->at(nextMonsterIndex));
-        }
-        
-        
-        
-        //this if statement seems backwards. operator is reversed to sort turn order properly
-        if(*nextPlayer < *nextMonster && nextPlayer->getTurnsTaken() <= nextMonster->getTurnsTaken()){
-            nextPlayer->attack(enemies);
-            nextPlayerIndex++;
+        else if (nextPlayer->getTurnsTaken() < nextMonster->getTurnsTaken()){
+            nextPlayer->attack(*enemies);
+            if(std::next(nextPlayer) == party.end()){
+                nextPlayer = party.begin();
+            }
+            else{
+                nextPlayer++;
+            }
         }
         else{
-            nextMonster->attack(&party);
-            nextMonsterIndex++;
+            nextMonster->attack(party);
+            if(std::next(nextMonster) == enemies->end()){
+                nextMonster = enemies->begin();
+            }
+            else{
+                nextMonster++;
+            }
         }
+        
     }
 }
 
 void Room::printRoom(std::vector<Player> * players, std::vector<Monster> * monsters, int level){
     std::vector<Player>::iterator itPlayer;
     std::vector<Monster>::iterator itMonster;
-    std::cout << "**************** Level " << level << " ****************\n";
+    std::cout << "**************** Round " << level << " ****************\n";
     
     for(itMonster = monsters->begin(); itMonster < monsters->end(); itMonster++){
         std::cout << itMonster->getName() << "    ";
@@ -122,7 +136,7 @@ void Room::printRoom(std::vector<Player> * players, std::vector<Monster> * monst
     }
     std::cout << "\n";
     for(itPlayer = players->begin(); itPlayer < players->end(); itPlayer++){
-        std::cout << itMonster->getHealth() << "    ";
+        std::cout << itPlayer->getHealth() << "    ";
     }
     std::cout << "\n******************************************\n";
     
