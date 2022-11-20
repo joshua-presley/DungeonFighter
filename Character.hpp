@@ -35,7 +35,7 @@ public:
 protected:
     std::string name;
     int level{1};
-    int healthpoints{5*level};
+    int healthpoints{2*level};
     int armour{};
     int initiative{rand() % 19 + 1};
     //stats

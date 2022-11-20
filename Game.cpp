@@ -59,6 +59,7 @@ void Room::doCombat(std::vector<Player> &party){
     std::sort(party.begin(), party.end());
     std::sort(enemies->begin(), enemies->end());
     
+    
     //int nextPlayerIndex{0};
     //int nextMonsterIndex{0};
     
@@ -67,12 +68,33 @@ void Room::doCombat(std::vector<Player> &party){
     int i = 1;
     std::vector<Player>::iterator nextPlayer = party.begin();// = nullptr;
     std::vector<Monster>::iterator nextMonster = enemies->begin();// = nullptr;
-    while(nextPlayer != party.end() || nextMonster != enemies->end()){
+    while(party.size() > 0 && enemies->size() > 0){
         
         printRoom(&party, enemies, i++);
         
-        //this if statement seems backwards. operator is reversed to sort turn order properly
-        if(*nextPlayer < *nextMonster && nextPlayer->getTurnsTaken() <= nextMonster->getTurnsTaken()){
+        //this if statement seems backwards. operator< is reversed to sort turn order properly
+        if(nextPlayer->getTurnsTaken() == nextMonster->getTurnsTaken()){
+            if(*nextPlayer < *nextMonster){
+                nextPlayer->attack(*enemies);
+                if(std::next(nextPlayer) == party.end()){
+                    nextPlayer = party.begin();
+                }
+                else{
+                    nextPlayer++;
+                }
+            }
+            else{
+                nextMonster->attack(party);
+                if(std::next(nextMonster) == enemies->end()){
+                    nextMonster = enemies->begin();
+                }
+                else{
+                    nextMonster++;
+                }
+                
+            }
+        }
+        else if (nextPlayer->getTurnsTaken() < nextMonster->getTurnsTaken()){
             nextPlayer->attack(*enemies);
             if(std::next(nextPlayer) == party.end()){
                 nextPlayer = party.begin();
