@@ -20,12 +20,19 @@ Game::~Game(){
 
 void Game::playGame(std::vector<Player> &party){
     //get number of levels
-    int levels = 2; //rand() % 5 + 10; //todo change this back to rand from 10 to 15
+    int levels = rand() % 5 + 10; //todo change this back to rand from 10 to 15
     for(int i = 0; i<levels;i++){
-        //create room
-        Room currentRoom{this->getLevel()};
-        currentRoom.createEnemies(this->getLevel());
-        currentRoom.doCombat(party);
+        
+        if(party.size() > 0){
+            //create room
+            Room currentRoom{this->getLevel()};
+            currentRoom.createEnemies(this->getLevel());
+            currentRoom.doCombat(party);
+        }
+        else{
+            std::cout << "The party has died. You survived " << i << " levels.\n";
+            break;
+        }
     }
     //
     //
