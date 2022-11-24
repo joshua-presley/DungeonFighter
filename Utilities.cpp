@@ -7,7 +7,7 @@
 
 #include "Utilities.hpp"
 
-int getEnemyChoice(int rangeLow, int rangeHigh, std::string message){
+int getIntChoice(int rangeLow, int rangeHigh, std::string message){
     while (true){
         std::cout << message;
         int choice{};
@@ -28,6 +28,22 @@ int getEnemyChoice(int rangeLow, int rangeHigh, std::string message){
         }
     }
     return 0;
+}
+
+
+std::string getStringChoice(std::string message){
+    while (true){
+        std::cout << message;
+        std::string input{};
+        if(!std::cin){
+            std::cin.clear();
+            ignoreLine();
+            std::cerr << "invalid choice\n";
+        }
+        else{
+            return message;
+        }
+    }
 }
 
 void ignoreLine(){

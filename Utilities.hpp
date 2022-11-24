@@ -10,7 +10,8 @@
 
 #include <iostream>
 
-int getEnemyChoice(int rangeLow, int rangeHigh, std::string message);
+int getIntChoice(int rangeLow, int rangeHigh, std::string message);
+std::string getStringChoice(std::string message);
 void ignoreLine();
 
 

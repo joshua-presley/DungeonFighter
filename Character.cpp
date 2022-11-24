@@ -40,7 +40,7 @@ void Player::attack(std::vector<Monster> & vectorOfTargets){
         message += std::to_string(i++) + ": " + mon.getName() + "\n";
     }
     
-    characterChoice = getEnemyChoice(0, i-1, message);
+    characterChoice = getIntChoice(0, i-1, message);
     
     int roll = rand() % 19 + 1;
     
