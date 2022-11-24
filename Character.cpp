@@ -7,6 +7,7 @@
 #include <iostream>
 #include <time.h>
 #include "Character.hpp"
+#include "Utilities.hpp"
 
 Character::Character(std::string name){
     this->name = name;
@@ -29,16 +30,18 @@ int Character::getArmour(){
 
 void Player::attack(std::vector<Monster> & vectorOfTargets){
     //check if hit
-    
-    std::cout << this->name << ": Choose a target:\n";
+    std::string message{};
+    message += this->name + ": Choose a target:\n";
     srand((unsigned int)time(NULL));
     int i=0;
     int characterChoice{};
     //int roll = rand() % 20;
     for(Monster mon: vectorOfTargets){
-        std::cout<< i++ << ": " << mon.getName() << "\n";
+        message += std::to_string(i++) + ": " + mon.getName() + "\n";
     }
-    std::cin >> characterChoice;
+    
+    characterChoice = getIntChoice(0, i-1, message);
+    
     int roll = rand() % 19 + 1;
     
     std::vector<Monster>::iterator targetMonster = vectorOfTargets.begin() + characterChoice;
