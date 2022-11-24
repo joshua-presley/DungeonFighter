@@ -23,6 +23,7 @@ int getIntChoice(int rangeLow, int rangeHigh, std::string message){
                 return choice;
             }
             else{
+                ignoreLine();
                 std::cerr << "invalid choice\n";
             }
         }
@@ -35,13 +36,15 @@ std::string getStringChoice(std::string message){
     while (true){
         std::cout << message;
         std::string input{};
+        std::cin >> input;
         if(!std::cin){
             std::cin.clear();
             ignoreLine();
             std::cerr << "invalid choice\n";
         }
         else{
-            return message;
+        
+            return input;
         }
     }
 }
