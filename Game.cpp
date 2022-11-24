@@ -76,7 +76,14 @@ void Room::doCombat(std::vector<Player> &party){
     std::vector<Player>::iterator nextPlayer = party.begin();// = nullptr;
     std::vector<Monster>::iterator nextMonster = enemies->begin();// = nullptr;
     while(party.size() > 0 && enemies->size() > 0){
-        
+        //remove dead characters here
+        //if doing it in the attack method it messes up the iterator
+        if(nextPlayer->isDead()){
+            party.erase(nextPlayer++);
+        }
+        if(nextMonster->isDead()){
+            enemies->erase(nextMonster++);
+        }
         printRoom(&party, enemies, i++);
         
         //this if statement seems backwards. operator< is reversed to sort turn order properly

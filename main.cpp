@@ -20,6 +20,7 @@ std::vector<Player> getPlayers(int size){
         std::string name;
         name = getStringChoice(("Enter name of character " + std::to_string(i + 1) + ": "));
         Player pl{name};
+        pl.takeDamage(-5);
         ret.push_back(pl);
     }
     
