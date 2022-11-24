@@ -102,3 +102,7 @@ int Character::getHealth(){
 int Character::getTurnsTaken(){
     return this->turnsTaken;
 }
+
+void Character::resetTurnCount(){
+    this->turnsTaken = 0;
+}
