@@ -28,6 +28,7 @@ public:
     
     void takeDamage(int damage);
     bool isDead();
+    void resetTurnCount();
     virtual void attack();
     
     friend bool operator<(const Character& lhs, const Character& rhs);

@@ -27,6 +27,12 @@ void Game::playGame(std::vector<Player> &party){
             //create room
             Room currentRoom{this->getLevel()};
             currentRoom.createEnemies(this->getLevel());
+            //reset turncount
+            
+            for(std::vector<Player>::iterator it = party.begin(); it < party.end(); it++){
+                (*it).resetTurnCount();
+            }
+            
             currentRoom.doCombat(party);
         }
         else{
@@ -76,7 +82,28 @@ void Room::doCombat(std::vector<Player> &party){
     std::vector<Player>::iterator nextPlayer = party.begin();// = nullptr;
     std::vector<Monster>::iterator nextMonster = enemies->begin();// = nullptr;
     while(party.size() > 0 && enemies->size() > 0){
-        
+        //remove dead characters here
+        //if doing it in the attack method it messes up the iterator
+        if(nextPlayer->isDead()){
+            party.erase(nextPlayer++);
+            //make sure we don't go past the end
+            if(party.size() == 0){
+                break;
+            }
+            else if(nextPlayer == party.end()){
+                nextPlayer = party.begin();
+            }
+        }
+        if(nextMonster->isDead()){
+            enemies->erase(nextMonster++);
+            //make sure we haven't gone past the end
+            if(enemies->size() == 0){
+                break;
+            }
+            else if(nextMonster == enemies->end()){
+                nextMonster = enemies->begin();
+            }
+        }
         printRoom(&party, enemies, i++);
         
         //this if statement seems backwards. operator< is reversed to sort turn order properly

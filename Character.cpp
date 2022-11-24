@@ -49,9 +49,6 @@ void Player::attack(std::vector<Monster> & vectorOfTargets){
     if(roll > targetMonster->getArmour()){
         std::cout << this->name << " attack roll: " << roll << " hit " << targetMonster->getName() << "\n\n\n";
         targetMonster->takeDamage(1); //todo: set this later
-        if(targetMonster->isDead()){
-            vectorOfTargets.erase(targetMonster);
-        }
     }
     else{
         std::cout << this->name << " attack roll: " << roll << " miss " << targetMonster->getName() << "\n\n\n";
@@ -73,9 +70,6 @@ void Monster::attack(std::vector<Player> & vectorOfTargets){
     if(roll > playerAttack->getArmour()){
         std::cout << this->name << " attack roll: " << roll << " hit " << playerAttack->getName() << " Armour: " << playerAttack->getArmour() << "\n\n\n";
         playerAttack->takeDamage(1);
-        if(playerAttack->isDead()){
-            vectorOfTargets.erase(playerAttack);
-        }
     }
     else{
         std::cout << this->name << " attack roll: " << roll << " miss " << playerAttack->getName() << " Armour: " << playerAttack->getArmour() << "\n\n\n";
@@ -107,4 +101,8 @@ int Character::getHealth(){
 
 int Character::getTurnsTaken(){
     return this->turnsTaken;
+}
+
+void Character::resetTurnCount(){
+    this->turnsTaken = 0;
 }
