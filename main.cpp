@@ -9,6 +9,7 @@
 #include "Character.hpp"
 #include "Game.hpp"
 #include <time.h>
+#include "Utilities.hpp"
 
 //get a number of players
 std::vector<Player> getPlayers(int size){
@@ -17,8 +18,7 @@ std::vector<Player> getPlayers(int size){
      
     for(int i=0;i<size;i++){
         std::string name;
-        std::cout<<"Enter name of character " << i + 1 << ": ";
-        std::cin >> name;
+        name = getStringChoice(("Enter name of character " + std::to_string(i + 1) + ": "));
         Player pl{name};
         ret.push_back(pl);
     }
@@ -31,8 +31,7 @@ int main(int argc, const char * argv[]) {
     srand((unsigned int)time(NULL));
     //enter players
     int size{};
-    std::cout << "Enter party size: ";
-    std::cin >> size;
+    size = getIntChoice(1, 4, "Enter number of players (1 to 4): ");
     std::vector<Player> players;
     players = getPlayers(size);
     //initialize game
